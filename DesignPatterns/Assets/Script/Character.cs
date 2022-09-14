@@ -12,7 +12,7 @@ public class Character : Actor {
 	public void Awake(){
 
 	}
-
+	
 	public void Start(){
 
 	}
