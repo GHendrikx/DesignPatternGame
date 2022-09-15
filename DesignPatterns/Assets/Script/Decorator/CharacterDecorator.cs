@@ -3,9 +3,9 @@ using UnityEngine;
 
 public abstract class CharacterDecorator : IDecorator, ICommand
 {
-    private ACharacter myCharacter;
+    protected Character myCharacter;
 
-    public CharacterDecorator(ACharacter _char)
+    public CharacterDecorator(Character _char)
     {
 		myCharacter = _char;
     }
@@ -16,11 +16,13 @@ public abstract class CharacterDecorator : IDecorator, ICommand
 
 public class BigheadDecorator : CharacterDecorator
 {
-	public void Execute() {
+	public BigheadDecorator(Character _char) : base(_char) {}
+
+	public override void Execute() {
 		myCharacter.myTraits.headSize += 10;
 	}
 
-	public void Undo() {
+	public override void Undo() {
 		myCharacter.myTraits.headSize -= 10;
 	}
 }

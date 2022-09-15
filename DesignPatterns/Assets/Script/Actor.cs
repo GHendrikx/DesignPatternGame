@@ -6,10 +6,10 @@ public abstract class Actor : MonoBehaviour {
 	protected List<Power> myPowers = new List<Power>();
 
 	public void ActivatePower(uint index) {
-		if (index < myPowers.Count) myPowers[index].ActivatePower();
+		if (index < myPowers.Count) myPowers[(int)index].ActivatePower();
 	}
 
 	public void DeactivatePower(uint index) {
-		if (index < myPowers.Count) myPowers[index].DeactivatePower();
+		if (index < myPowers.Count) myPowers[(int)index].DeactivatePower();
 	}
 }

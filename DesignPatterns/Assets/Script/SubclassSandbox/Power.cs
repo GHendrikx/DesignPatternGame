@@ -3,13 +3,13 @@ using UnityEngine;
 
 public abstract class Power
 {
-	protected ACharacter myCharacter;
+	protected Character myCharacter;
 	
 	public abstract void ActivatePower();
     public abstract void DeactivatePower();
 
-	public Power(ACharacter _owner) 
+	public Power(Character _char) 
 	{
-		myCharacter = _owner;
+		myCharacter = _char;
 	}
 }

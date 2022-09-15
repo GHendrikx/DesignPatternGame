@@ -1,6 +1,8 @@
-public struct Traits
+using System.Collections.Generic;
+
+public class Traits
 {
-    public int HeadSize = 1;
-    public bool HeadSet = false;
-    public List<Limbs> limbs;
+    public int headSize = 1;
+    public bool headSet = false;
+    public List<Limbs> limbs = new List<Limbs>();
 }
