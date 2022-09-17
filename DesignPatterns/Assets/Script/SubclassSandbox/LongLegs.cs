@@ -1,15 +1,17 @@
 using System.Collections;
 using UnityEngine;
 
-public class LongLegs: Power{
+public class LongLegs: Power {
+
+    public LongLegs(Character _char) : base(_char) {}
 
     public override void ActivatePower()
     {
-        myCharacter.LegLength *= 10;
+        //myActor.LegLength *= 10;
     }
 
     public override void DeactivatePower()
     {
-        myCharacter.LegLength /= 10;
+        //myActor.LegLength /= 10;
     }
 }

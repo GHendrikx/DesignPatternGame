@@ -1,4 +1,4 @@
-public struct Limbs()
+public struct Limbs
 {
     public float Length;
     public LimbType limb;
