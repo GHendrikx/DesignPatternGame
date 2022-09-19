@@ -1,15 +1,19 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public abstract class CharacterDecorator : IDecorator, ICommand
+public abstract class CharacterDecorator : IDecorator<Character>, ICommand<Character>
 {
-    protected Character myCharacter;
+	public abstract void Execute(Character _char);
+	public abstract void Undo(Character _char);
+}
 
-    public CharacterDecorator(Character _char)
-    {
-		myCharacter = _char;
-    }
+public class BigheadDecorator : CharacterDecorator
+{
+	public override void Execute(Character _char) {
+		_char.myTraits.headSize += 10;
+	}
 
-	public abstract void Execute();
-	public abstract void Undo();
+	public override void Undo(Character _char) {
+		_char.myTraits.headSize -= 10;
+	}
 }
