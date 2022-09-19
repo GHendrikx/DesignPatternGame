@@ -9,15 +9,6 @@ public class Character : Actor {
 	// traits, editable by powers & decorators
 	public Traits myTraits;
 	
-<<<<<<< HEAD
-	// DISCUSS: Where does this belong? Character or Actor?
-	// super behaviours
-	public Stack<IDecorator> myDecorations = new Stack<IDecorator>();
-
-	public void Awake() { }
-	
-	public void Start(){ }
-=======
 	public Stack<IDecorator<Character>> myDecorations = new Stack<IDecorator<Character>>();
 
 	public void Awake()
@@ -47,5 +38,4 @@ public class Character : Actor {
 			Debug.Log( d.GetType().ToString() );
 		}
 	}
->>>>>>> Random Generator CharacterDecorators
 }

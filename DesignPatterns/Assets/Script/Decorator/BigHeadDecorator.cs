@@ -1,14 +1,12 @@
 ﻿public class BigheadDecorator : CharacterDecorator
 {
-	public BigheadDecorator(Character _char) : base(_char) { }
-
-	public override void Execute()
+	public override void Execute(Character _char)
 	{
-		myCharacter.myTraits.headSize += 10;
+		_char.myTraits.headSize += 10;
 	}
 
-	public override void Undo()
+	public override void Undo(Character _char)
 	{
-		myCharacter.myTraits.headSize -= 10;
+		_char.myTraits.headSize -= 10;
 	}
 }
