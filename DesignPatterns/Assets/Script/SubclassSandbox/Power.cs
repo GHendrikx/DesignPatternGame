@@ -12,4 +12,29 @@ public abstract class Power
 	{
 		myCharacter = _char;
 	}
+
+	public void Jump()
+	{
+
+	}
+
+	public void Yell()
+	{
+
+	}
+
+	public void MeleeAttack()
+	{
+
+	}
+
+	public void RangedAttack()
+	{
+
+	}
+
+	public void SpawnParticles()
+	{
+
+	}
 }

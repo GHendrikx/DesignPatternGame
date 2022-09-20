@@ -2,11 +2,11 @@
 {
     public override void Execute(Character _char)
     {
-        //+1 hat
+        _char.myTraits.hatCount++;
     }
 
     public override void Undo(Character _char)
     {
-        //-1 hat
-    }
+		_char.myTraits.hatCount--;
+	}
 }
