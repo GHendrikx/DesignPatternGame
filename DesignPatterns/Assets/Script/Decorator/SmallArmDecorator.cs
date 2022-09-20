@@ -1,17 +1,15 @@
 ﻿public class SmallArmDecorator : CharacterDecorator
 {
-    public SmallArmDecorator(Character _char) : base(_char) { }
-
-    public override void Execute()
+    public override void Execute(Character _char)
     {
-        myCharacter.myTraits.ArmLength -= 10;
+        _char.myTraits.ArmLength -= 10;
 
         //not sure about this but the drawing tells me this.
-        myCharacter.myTraits.limbs.Add(new Limbs(myCharacter.myTraits.ArmLength, LimbType.Arms));
+        _char.myTraits.limbs.Add(new Limbs(_char.myTraits.ArmLength, LimbType.Arms));
     }
 
-    public override void Undo()
+    public override void Undo(Character _char)
     {
-        myCharacter.myTraits.ArmLength += 10;
+        _char.myTraits.ArmLength += 10;
     }
 }

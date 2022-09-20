@@ -1,14 +1,11 @@
 ﻿class HatDecorator : CharacterDecorator
 {
-
-    public HatDecorator(Character _char) : base(_char) { }
-
-    public override void Execute()
+    public override void Execute(Character _char)
     {
         //+1 hat
     }
 
-    public override void Undo()
+    public override void Undo(Character _char)
     {
         //-1 hat
     }

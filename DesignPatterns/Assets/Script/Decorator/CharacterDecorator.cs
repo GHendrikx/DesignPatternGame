@@ -1,15 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public abstract class CharacterDecorator : IDecorator, ICommand
+public abstract class CharacterDecorator : IDecorator<Character>, ICommand<Character>
 {
-    protected Character myCharacter;
-
-    public CharacterDecorator(Character _char)
-    {
-		myCharacter = _char;
-    }
-
-	public abstract void Execute();
-	public abstract void Undo();
+	public abstract void Execute(Character _char);
+	public abstract void Undo(Character _char);
 }
