@@ -5,29 +5,31 @@ using UnityEngine;
 using System.Linq;
 using System;
 
-public interface ICommandStackManager<T>
-{
-	Stack<T> history { get; }
-	Stack<T> future { get; }
-	void Undo();
-	void Redo();
-}
-
 public class Character : Actor, ICommandStackManager<IDecorator<Character>>
 {
-
 	// traits, editable by powers & decorators
 	public Traits myTraits = new Traits();
 	public Stack<IDecorator<Character>> history { get; private set; } = new Stack<IDecorator<Character>>();
 	public Stack<IDecorator<Character>> future { get; private set; } = new Stack<IDecorator<Character>>();
 
-	public event Action onTraitsUpdated;
 
-	public void Awake()
+	public override void Awake()
 	{
-		FindObjectOfType<CharacterTraitViewer>().SetCharacter(this);
+		FindObjectOfType<CharacterTraitViewer>()?.SetInstance(this);
+
+		myPowers.Add(new JumpPower());
+		myPowers.Add(new YellPower());
+		myPowers.Add(new MeleePower());
+		myPowers.Add(new RangedPower());
+		myPowers.Add(new FrenzyPower());
+		foreach( Power p in myPowers )
+		{
+			p.SetActor(this);
+		}
+
+		base.Awake();
 	}
-	
+
 	public void Start()
 	{
 		
@@ -47,7 +49,7 @@ public class Character : Actor, ICommandStackManager<IDecorator<Character>>
 			history.Push(dec);
 			future.Clear();
 
-			onTraitsUpdated?.Invoke();
+			onUpdated?.Invoke();
 		}
 	}
 
@@ -57,9 +59,9 @@ public class Character : Actor, ICommandStackManager<IDecorator<Character>>
 		{
 			IDecorator<Character> toUndo = history.Pop();
 			future.Push(toUndo);
-			(toUndo as ICommand<Character>).Undo(this);
+			(toUndo as IReversibleCommand<Character>).Undo(this);
 
-			onTraitsUpdated?.Invoke();
+			onUpdated?.Invoke();
 		}
 	}
 
@@ -71,7 +73,7 @@ public class Character : Actor, ICommandStackManager<IDecorator<Character>>
 			history.Push(toRedo);
 			toRedo.Execute(this);
 
-			onTraitsUpdated?.Invoke();
+			onUpdated?.Invoke();
 		}
 	}
 }
