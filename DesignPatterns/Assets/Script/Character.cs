@@ -3,19 +3,33 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using System.Linq;
+using System;
 
-public class Character : Actor {
-
+public class Character : Actor, ICommandStackManager<IDecorator<Character>>
+{
 	// traits, editable by powers & decorators
-	public Traits myTraits;
-	
-	public Stack<IDecorator<Character>> myDecorations = new Stack<IDecorator<Character>>();
+	public Traits myTraits = new Traits();
+	public Stack<IDecorator<Character>> history { get; private set; } = new Stack<IDecorator<Character>>();
+	public Stack<IDecorator<Character>> future { get; private set; } = new Stack<IDecorator<Character>>();
 
-	public void Awake()
+
+	public override void Awake()
 	{
-		
+		FindObjectOfType<CharacterTraitViewer>()?.SetInstance(this);
+
+		myPowers.Add(new JumpPower());
+		myPowers.Add(new YellPower());
+		myPowers.Add(new MeleePower());
+		myPowers.Add(new RangedPower());
+		myPowers.Add(new FrenzyPower());
+		foreach( Power p in myPowers )
+		{
+			p.SetActor(this);
+		}
+
+		base.Awake();
 	}
-	
+
 	public void Start()
 	{
 		
@@ -28,14 +42,38 @@ public class Character : Actor {
 													.Where(myType => typeof(CharacterDecorator).IsAssignableFrom(myType) && myType != typeof(CharacterDecorator) && !myType.IsAbstract);
 		if ( types.Count() > 0 ) 
 		{
-			int rand = Random.Range(0, types.Count());
+			int rand = UnityEngine.Random.Range(0, types.Count());
 			IDecorator<Character> dec = (IDecorator<Character>)System.Activator.CreateInstance(types.ElementAt(rand));
-			myDecorations.Push(dec);
-		}
+			dec.Execute(this);
 
-		foreach( IDecorator<Character> d in myDecorations )
+			history.Push(dec);
+			future.Clear();
+
+			onUpdated?.Invoke();
+		}
+	}
+
+	public void Undo()
+	{
+		if (history.Count > 0)
 		{
-			Debug.Log( d.GetType().ToString() );
+			IDecorator<Character> toUndo = history.Pop();
+			future.Push(toUndo);
+			(toUndo as IReversibleCommand<Character>).Undo(this);
+
+			onUpdated?.Invoke();
+		}
+	}
+
+	public void Redo()
+	{
+		if (future.Count > 0)
+		{
+			IDecorator<Character> toRedo = future.Pop();
+			history.Push(toRedo);
+			toRedo.Execute(this);
+
+			onUpdated?.Invoke();
 		}
 	}
 }
